@@ -24,6 +24,12 @@ const Todo = () => {
         }
     }
 
+    const deleteTask = (index) => {
+        const temp= taskList;
+        temp.splice(index, 1);
+        setTaskList([...temp]);
+    };
+
     //let count = 0;
     //const [count, setCount] = useState(0);
 
@@ -64,8 +70,25 @@ const Todo = () => {
                             taskList.map((task, index) =>{
                                 return <div key={index} 
                                 className='border p-4 rounded-md mb-5 flex justify-between items-center'>
-                                    <p>{task.text}</p>
-                                    <button className='bg-red-500 text-white p-2 rounded'>
+                                    <div className='flex gap-3 w-1/2'>
+                                        <input type="checkbox" 
+                                        checked={task.completed}
+                                        onChange={(e) => {
+                                            const temp =taskList;
+                                            temp[index].completed =e.target.checked;
+                                            setTaskList([...temp]);
+                                        }}/>
+
+                                        <p>{task.text}</p>
+                                    </div>
+                                    {
+                                        task.completed?(
+                                            <p className='text-white bg-green-600 px-2 rounded-full'>Completed</p>
+                                        ):(
+                                            <p className='text-white bg-yellow-600 px-2 rounded-full'>Pending</p>
+                                        )
+                                    }
+                                    <button onClick={() => {deleteTask(index)}} className='bg-red-500 text-white p-2 rounded'>
                                         <Trash2 />
                                     </button>
                                 </div>
